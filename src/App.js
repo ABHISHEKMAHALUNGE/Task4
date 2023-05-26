@@ -12,83 +12,92 @@ function App() {
     e.preventDefault();
     setSubmitted(true);
     let a = [...weights];
-
-let one = 0;
-let two = 0;
-let i = 0;
-let j = a.length - 1;
-
-while (i < j) {
-if(j-i===1){
-    break;
-}
-  if (a[i] <= capacityOne && a[j] <= capacityTwo) {
-    one += a[i];
-    a[i] = 0;
-    i++;
-    two += a[j];
-    a[j] = 0;
-    j--;
-    if (i === j) {
-    if (capacityOne > capacityTwo) {
-      one +=a[i];
-      a[i]=0;
-    } else {
-      
-       two +=a[j];
-       a[j]=0
+    console.log(a);
+   
+    
+    let one = 0;
+    let two = 0;
+    let i = 0;
+    let j = a.length - 1;
+    let draw = false;
+    while (i < j) {
+    if(j-i===1){
+        break;
     }
-  }
-  } else if (a[i] > capacityOne && a[j] <= capacityTwo) {
-    one += capacityOne;
-    a[i] -= capacityOne;
-    two += a[j];
-    a[j] = 0;
-    j--;
-  } else if (a[i] <= capacityOne && a[j] > capacityTwo) {
+      if (a[i] <= capacityOne && a[j] <= capacityTwo) {
+        one += a[i];
+        a[i] = 0;
+        i++;
+        two += a[j];
+        a[j] = 0;
+        j--;
+        if (i === j) {
+        if (capacityOne > capacityTwo) {
+          one +=a[i];
+          a[i]=0;
+        } else if(capacityOne<capacityTwo) {
+          
+           two +=a[j];
+           a[j]=0
+        }
+        else{
+          draw = true;
+        }
+      }
+      } else if (a[i] > capacityOne && a[j] <= capacityTwo) {
+        one += capacityOne;
+        a[i] -= capacityOne;
+        two += a[j];
+        a[j] = 0;
+        j--;
+      } else if (a[i] <= capacityOne && a[j] > capacityTwo) {
+        one += a[i];
+        a[i] = 0;
+        i++;
+        two += capacityTwo;
+        a[j] -= capacityTwo;
+      } else if (a[i] > capacityOne && a[j] > capacityTwo) {
+        one += capacityOne;
+        a[i] -= capacityOne;
+        two += capacityTwo;
+        a[j] -= capacityTwo;
+      }
+    }
+    // if (i == j) {
+    //     if (capacityOne > capacityTwo) {
+    //       if (a[i] <= capacityOne) {
+    //         one += a[i];
+    //         a[i] = 0;
+    //         i++;
+    //       } else {
+    //         one += capacityOne;
+    //         a[i] -= capacityOne;
+    //       }
+    //     } else {
+    //       if (a[j] <= capacityTwo) {
+    //         two += a[j];
+    //         a[j] = 0;
+    //         j--;
+    //       } else {
+    //         two += capacityTwo;
+    //         a[j] -= capacityTwo;
+    //       }
+    //     }
+    //   }
     one += a[i];
-    a[i] = 0;
-    i++;
-    two += capacityTwo;
-    a[j] -= capacityTwo;
-  } else if (a[i] > capacityOne && a[j] > capacityTwo) {
-    one += capacityOne;
-    a[i] -= capacityOne;
-    two += capacityTwo;
-    a[j] -= capacityTwo;
-  }
+    two += a[j];
+    console.log(one, two);
+    
+if(draw){
+  setWinner("Match is drawn");
 }
-// if (i == j) {
-//     if (capacityOne > capacityTwo) {
-//       if (a[i] <= capacityOne) {
-//         one += a[i];
-//         a[i] = 0;
-//         i++;
-//       } else {
-//         one += capacityOne;
-//         a[i] -= capacityOne;
-//       }
-//     } else {
-//       if (a[j] <= capacityTwo) {
-//         two += a[j];
-//         a[j] = 0;
-//         j--;
-//       } else {
-//         two += capacityTwo;
-//         a[j] -= capacityTwo;
-//       }
-//     }
-//   }
-one += a[i];
- two += a[j];
-console.log(one, two);
-if(one>two){
+else if(one>two){
   setWinner("Player 1");
 }
-if(two>one){
+else if(two>one){
   setWinner("Player 2");
 }
-if(one === two){
+else if(one === two){
   setWinner("Match is drawn");
 }
 
